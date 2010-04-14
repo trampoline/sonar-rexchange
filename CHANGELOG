@@ -1,0 +1,52 @@
+-- 0.3.4:
+* Updated the README so it jives with the current version
+* Removed Folder::join since it's only used by Folder#to_s, and just used a simpler
+	solution in Folder#to_s instead
+
+-- 0.3.3:
+* Folder objects now default to using the Message class for enumeration 
+  if no class is associated with the content_type of the Folder.
+  
+-- 0.3.2:
+* Quick hack to make Message#move_to work
+
+-- 0.3.1:
+* Disabled a warning about overwriting GenericItem::CONTENT_CLASS
+* Added a "rescue" for Time::parse failures that reverts to the original element text
+
+-- 0.3.0:
+* Added support for Appointments
+* Options hash for Session creation is gone. The new form is: "RExchange::Session.new(url, username, password)"
+* Removed GenericItem#[], GenericItem#method_missing (attributes are explicit now)
+* Removed Folder#get_messages, #get_contacts and #messages_in. Folders are now Enumerables using Enumerable#entries, #each, etc
+  to retrieve entries according to the folder's content-class. So a 'mailfolder' will retrieve Message instances,
+  a 'calendarfolder' will retrieve Appointment instances, and so on.
+
+-- 0.2.0:
+* Fixed a bug in Message#move_to when passing folders
+* Added support for Contact browsing
+* Added GenericItem to abstract Contacts and Messages
+* Renamed Folder#messages to Folder#get_messages to avoid naming collisions
+* Modified attributes in GenericItem that end with "date" to be Time::parse'd
+* Added "r_exchange.rb" for Rails auto-require compatibility
+* Now calling String#normalize on attribute names instead of just String#tr('-', '_')
+
+-- 0.1.4:
+* Moved Folder::normalize_folder_name to String#normalize, and added support for MixedCase sources.
+* Fixed a bug where the normalized folder name was being used for the Folder#to_s result.
+* Moved the meat of Folder#messages to Message::find
+* Added Message#to_s
+* Modified Folder#get_folders to return a hash instead of an array, providing both the original, and normalized names.
+
+-- 0.1.3: Bugfixes
+* Fixed several nasty bugs.
+
+-- 0.1.2: Minor documentation/cleanup
+* Removed a double-dash in the README that was apparently causing some viewing errors
+* Changed Session initialize to a ternary condition
+* Added RExchange::Message#has_attachments?
+* Added documentation for most methods in RExchange::Message and RExchange::Folder
+
+-- 0.1.1
+* Fleshed out the README
+* Copied the RAKEFILE from the Rools project
