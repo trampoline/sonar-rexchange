@@ -1,5 +1,8 @@
 = RExchange
 
+== Please note 
+sonar-rexchange is a modified version of the rexchange gem.
+
 RExchange is a pure ruby wrapper for the Microsoft Exchange Server WebDAV API
 
 == Things you should know
