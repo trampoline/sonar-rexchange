@@ -4,9 +4,9 @@ require 'rake'
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.name = "sonar-rexchange"
+    gem.name = "sonar_rexchange"
     gem.summary = %Q{Modified rexchange gem}
-    gem.description = %Q{The sonar-rexchange gem imports and fixes bugs in the rexchange gem.}
+    gem.description = %Q{The sonar_rexchange gem imports and fixes bugs in the rexchange gem.}
     gem.email = "hello@empire42.com"
     gem.homepage = "http://github.com/trampoline/sonar-rexchange"
     gem.authors = ["Peter MacRobert", "Daniel Kwiecinski", "Craig McMillan"]
@@ -44,7 +44,7 @@ Rake::RDocTask.new do |rdoc|
   version = File.exist?('VERSION') ? File.read('VERSION') : ""
 
   rdoc.rdoc_dir = 'rdoc'
-  rdoc.title = "sonar-rexchange #{version}"
+  rdoc.title = "sonar_rexchange #{version}"
   rdoc.rdoc_files.include('README*')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
