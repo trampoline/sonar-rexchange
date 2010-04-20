@@ -18,11 +18,11 @@ module RExchange
     def move_to(folder)
 
       destination =
-              if folder.is_a?(RExchange::Folder)
-                folder.to_s.ensure_ends_with('/') + @href.split('/').last
-              else
-                @session.uri.path.ensure_ends_with('/') + folder.to_s.ensure_ends_with('/') + @href.split('/').last
-              end
+      if folder.is_a?(RExchange::Folder)
+        folder.to_s.ensure_ends_with('/') + @href.split('/').last
+      else
+        @session.uri.path.ensure_ends_with('/') + folder.to_s.ensure_ends_with('/') + @href.split('/').last
+      end
 
       DavMoveRequest.execute(@session, @href, destination)
     end
@@ -50,7 +50,8 @@ module RExchange
     end
 
     def raw
-      fetch(@href, limit = 10)
+      # memoization of the raw contents
+      @raw ||= fetch(@href, limit = 10)
     end
 
     def fetch(uri_str, limit = 10)
@@ -87,8 +88,8 @@ module RExchange
     # Retrieve an Array of hrefs to items (such as Contact, Message, etc)
     def self.find_message_hrefs(href_regex, credentials, path, conditions = nil)
       qbody = <<-QBODY
-  			<D:searchrequest xmlns:D = "DAV:">
-  				 <D:sql>
+        <D:searchrequest xmlns:D = "DAV:">
+           <D:sql>
            #{query(path)}
            </D:sql>
         </D:searchrequest>
