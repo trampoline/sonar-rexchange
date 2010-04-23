@@ -1,6 +1,7 @@
 require 'rexml/document'
 require 'net/https'
 require 'rexchange/dav_search_request'
+require 'rexchange/dav_mkcol_request'
 require 'rexchange/message'
 require 'rexchange/contact'
 require 'rexchange/appointment'
@@ -61,14 +62,14 @@ module RExchange
       @folders ||=
               begin
                 request_body = <<-eos
-  				<D:searchrequest xmlns:D = "DAV:">
-  					 <D:sql>
-  					 SELECT "DAV:displayname", "DAV:contentclass"
-  					 FROM SCOPE('shallow traversal of "#{@href}"')
-  					 WHERE "DAV:ishidden" = false
+          <D:searchrequest xmlns:D = "DAV:">
+             <D:sql>
+             SELECT "DAV:displayname", "DAV:contentclass"
+             FROM SCOPE('shallow traversal of "#{@href}"')
+             WHERE "DAV:ishidden" = false
                          AND "DAV:isfolder" = true
-  					 </D:sql>
-  				</D:searchrequest>
+             </D:sql>
+          </D:searchrequest>
                 eos
                 folders = []
                 DavSearchRequest.execute(@credentials, :body => request_body) do |response|
@@ -93,7 +94,12 @@ module RExchange
     def folders_hash
       @folders_hash ||= folders.inject({}){|memo, f| memo[f.displayname.normalize]=f; memo}
     end
-
+    
+    def make_subfolder(subfolder)
+      path = @href.ensure_ends_with("/") + subfolder.ensure_ends_with("/")
+      DavMkcolRequest.execute(@credentials, path)
+    end
+    
     # Return the absolute path to this folder (but not the full URI)
     def to_s
       @href
